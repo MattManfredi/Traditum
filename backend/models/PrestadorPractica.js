@@ -2,9 +2,9 @@ import { DataTypes } from "sequelize";
 import { sequelize } from "../config/config.js";
 import TipoPrestador from "./TipoPrestador.js";
 import Financiadora from "./Financiadora.js";
-import Prestador from "./Prestador.js";
 import TipoNomenclador from "./TipoNomenclador.js";
 import Practica from "./Practica.js";
+import Prestador from "./Prestador.js";
 
 const PrestadorPractica = sequelize.define('PrestadorPractica',{
     id_financiadora: {
@@ -29,10 +29,6 @@ const PrestadorPractica = sequelize.define('PrestadorPractica',{
         type: DataTypes.STRING(12),
         primaryKey: true,
         allowNull: false,
-        references: {
-            model: Prestador,
-            key: 'id_prestador'
-        },
     },
     id_tipoNomenclador: {
         type: DataTypes.STRING(10),
@@ -61,6 +57,9 @@ const PrestadorPractica = sequelize.define('PrestadorPractica',{
     tableName: 'prestadores_practicas',
     timestamps: false,
 });
+
+// // Lazy import de Prestador.js para evitar dependencia circular
+// const Prestador = (await import("./Prestador.js")).default;
 
 // Relacion Belongs to Prestadores, TipoPrestador, TipoNomenclador, Financiadora, Practica
 PrestadorPractica.belongsTo(Prestador, {foreignKey: 'id_prestador'});

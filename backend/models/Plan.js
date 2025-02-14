@@ -1,6 +1,6 @@
 import { DataTypes } from "sequelize";
-import { sequelize } from "../config/config";
-import Financiadora from "./Financiadora";
+import { sequelize } from "../config/config.js";
+import Financiadora from "./Financiadora.js";
 
 const Plan = sequelize.define('Plan',{
     id_plan:{

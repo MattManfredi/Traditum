@@ -1,3 +1,5 @@
+console.log("Node funciona");
+
 import express from 'express';
 import cors from 'cors';
 import {sequelize} from './config/config.js';
@@ -5,6 +7,7 @@ import planesRoutes from './routes/planes.js';
 import practicasRoutes from './routes/practicas.js';
 import prestadoresRoutes from './routes/prestadores.js';
 
+console.log("Iniciando servidor?");
 const app = express();
 
 // Habilitar Cors
@@ -22,7 +25,7 @@ app.use(express.json());
 
 // Prueba de conexion a BD
 sequelize.authenticate()
-    .then(()=>console.log('Conexión a la BD establecida 🔥🔥'))
+    .then(()=>console.log('Conexión a la BD establecida'))
     .catch((error)=>console.error('Error en la conexion a la BD: ',error));
 
 // Ruta de prueba

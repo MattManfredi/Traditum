@@ -4,6 +4,7 @@ import TipoPrestador from "./TipoPrestador.js";
 import Provincia from "./Provincia.js";
 
 
+
 const Prestador = sequelize.define('Prestador', {
     id_prestador: {
         type: DataTypes.STRING(12),
@@ -86,5 +87,9 @@ const Prestador = sequelize.define('Prestador', {
 
 // Relacion Belongs to
 Prestador.belongsTo(TipoPrestador, {foreignKey: 'id_tipoPrestador'});
+
+// Relacion: Un prestador puede tener muchos planes
+// Prestador.hasMany(PrestadorPlan, {foreignKey: 'id_prestador'});
+// Prestador.hasMany(PrestadorPractica, {foreignKey: 'id_prestador'});
 
 export default Prestador;

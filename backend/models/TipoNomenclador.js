@@ -27,7 +27,7 @@ const TipoNomenclador = sequelize.define('TipoNomenclador',{
         defaultValue: sequelize.literal('CURRENT_TIMESTAMP'), // Establece la fecha de la creacion del tipo de nomenclador
     },
 },{
-    tableName: 'tipoNomenclador',
+    tableName: 'tipos_nomencladores',
     timestamps: false,
 });
 

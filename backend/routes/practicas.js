@@ -9,4 +9,6 @@ router.post('/', createPractica); // Crear una practica
 router.put('/:id', updatePractica); // Actualizar una practica
 router.delete('/:id', deletePractica); // Eliminar una practica
 
+
+
 export default router;
