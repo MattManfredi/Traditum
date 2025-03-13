@@ -1,41 +1,54 @@
 /* eslint-disable react/prop-types */
 const DataTable = ({ title, assigned, notAssigned, onAssign, onUnassign }) => {
     return (
-        <table border="1">
-            <thead>
-                <tr>
-                    <th colSpan="2"><h3>{title}</h3></th>
-                </tr>
-                <tr>
-                    <th>Asignados</th>
-                    <th>No Asignados</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>
-                        <ul>
-                            {assigned.length > 0 ? assigned.map((item, index) => (
-                                <li key={index}>
-                                    {item}
-                                    <button onClick={() => onUnassign(item)}>❌ Quitar</button>
-                                </li>
-                            )) : <p>Sin asignar</p>}
-                        </ul>
-                    </td>
-                    <td>
-                        <ul>
-                            {notAssigned.length > 0 ? notAssigned.map((item, index) => (
-                                <li key={index}>
-                                    {item}
-                                    <button onClick={() => onAssign(item)}>✔ Agregar</button>
-                                </li>
-                            )) : <p>Sin asignar</p>}
-                        </ul>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+        <div className="bg-white rounded-lg shadow-md p-6 mb-6">
+            <h3 className="text-2xl font-bold mb-4 text-gray-800 uppercase text-center">{title}</h3>
+            
+            <div className="grid md:grid-cols-2 gap-6">
+                {/* Lista de No Asignados */}
+                <div className="border rounded-lg p-4">
+                    <h4 className="font-medium text-gray-700 mb-3">No Asignados</h4>
+                    <div className="max-h-60 overflow-y-auto">
+                        {notAssigned.map((item) => (
+                            <div 
+                                key={item} 
+                                className="flex justify-between items-center p-2 hover:bg-gray-50 rounded cursor-pointer group"
+                            >
+                                <span className="text-gray-600">{item}</span>
+                                {console.log(item)}
+                                <button
+                                    onClick={() => onAssign(item)}
+                                    className="invisible group-hover:visible bg-green-500 text-white px-3 py-1 rounded text-sm hover:bg-green-600 transition-colors"
+                                >
+                                    Asignar
+                                </button>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+
+                {/* Lista de Asignados */}
+                <div className="border rounded-lg p-4">
+                    <h4 className="font-medium text-gray-700 mb-3">Asignados</h4>
+                    <div className="max-h-60 overflow-y-auto">
+                        {assigned.map((item) => (
+                            <div 
+                                key={item} 
+                                className="flex justify-between items-center p-2 hover:bg-gray-50 rounded cursor-pointer group"
+                            >
+                                <span className="text-gray-600">{item}</span>
+                                <button
+                                    onClick={() => onUnassign(item)}
+                                    className="invisible group-hover:visible bg-red-500 text-white px-3 py-1 rounded text-sm hover:bg-red-600 transition-colors"
+                                >
+                                    Desasignar
+                                </button>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </div>
+        </div>
     );
 };
 
