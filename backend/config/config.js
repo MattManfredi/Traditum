@@ -2,8 +2,8 @@ import { Sequelize } from 'sequelize';
 import dotenv from 'dotenv';
 
 dotenv.config();
-
-export const sequelize = new Sequelize(
+/* CONFIG PARA LOCAL */
+/*export const sequelize = new Sequelize(
     process.env.DB_NAME,
     process.env.DB_USER,
     process.env.DB_PASSWORD,
@@ -12,4 +12,15 @@ export const sequelize = new Sequelize(
         port: process.env.DB_PORT,
         dialect: 'mysql'
     }
-);
+); */
+
+export const sequelize = new Sequelize(process.env.DATABASE_URL, {
+    dialect: 'mysql',
+    dialectOptions: {
+        ssl: {
+            require: true,
+            rejectUnauthorized: false
+        }
+    }
+});
+
