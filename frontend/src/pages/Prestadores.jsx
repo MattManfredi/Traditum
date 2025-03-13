@@ -2,6 +2,8 @@ import { useState,useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import { API_URL } from '../config/config';
+
 const Prestadores = () => {
     const [prestadores, setPrestadores] = useState([]);
     const [filteredPrestadores, setFilteredPrestadores] = useState([]);
@@ -15,7 +17,7 @@ const Prestadores = () => {
 
     // Cargar prestadores
     useEffect(() => {
-        axios.get("http://localhost:3000/api/prestadores")
+        axios.get(`${API_URL}/prestadores`)
             .then(response => {
                 setPrestadores(response.data);
                 setFilteredPrestadores(response.data);
