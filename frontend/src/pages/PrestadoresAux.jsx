@@ -21,7 +21,7 @@ const Prestadores = () => {
         setIsLoading(true);
         console.log("Llamando a:", `${import.meta.env.VITE_API_URL}/prestadores`)
         //axios.get(`${API_URL}/prestadores`)
-        axios.get(`https://traditum-production-f345.up.railway.app/api/prestadores`)
+        axios.get(`${import.meta.env.VITE_API_URL}/prestadores`)
             .then(response => {
                 setPrestadores(response.data);
                 console.log(response);
