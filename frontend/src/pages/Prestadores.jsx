@@ -13,10 +13,12 @@ const Prestadores = () => {
         key: null,
         direction: 'asc'
     });
+    const [isLoading, setIsLoading] = useState(true);
     const navigate = useNavigate();
 
     // Cargar prestadores
     useEffect(() => {
+        setIsLoading(true);
         axios.get(`${API_URL}/prestadores`)
             .then(response => {
                 setPrestadores(response.data);
@@ -25,6 +27,9 @@ const Prestadores = () => {
             })
             .catch(error => {
                 console.error("Error al cargar prestadores:", error);
+            })
+            .finally(() => {
+                setIsLoading(false);
             });
     }, []);
 
@@ -76,103 +81,114 @@ const Prestadores = () => {
 
     return (
         <div className="container mx-auto px-4">
-            {/* Encabezado y Búsqueda */}
-            <div className="flex justify-between items-center mb-6">
-                <h1 className="text-2xl font-bold text-gray-800">Prestadores</h1>
-                <Link 
-                    to="/prestadores/nuevo"
-                    className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors"
-                >
-                    Nuevo Prestador
-                </Link>
-            </div>
-
-            {/* Barra de búsqueda */}
-            <div className="mb-6 flex gap-4">
-                <div className="relative flex-1">
-                    <input
-                        type="text"
-                        placeholder="Buscar por nombre..."
-                        value={searchName}
-                        onChange={(e) => setSearchName(e.target.value)}
-                        className="w-full p-3 pl-10 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    />
-                    <svg 
-                        className="absolute left-3 top-3.5 h-5 w-5 text-gray-400"
-                        xmlns="http://www.w3.org/2000/svg" 
-                        viewBox="0 0 20 20" 
-                        fill="currentColor"
-                    >
-                        <path fillRule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clipRule="evenodd" />
-                    </svg>
-                </div>
-                <div className="relative flex-1">
-                    <input
-                        type="text"
-                        placeholder="Buscar por CUIT..."
-                        value={searchId}
-                        onChange={(e) => setSearchId(e.target.value)}
-                        className="w-full p-3 pl-10 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    />
-                    <svg 
-                        className="absolute left-3 top-3.5 h-5 w-5 text-gray-400"
-                        xmlns="http://www.w3.org/2000/svg" 
-                        viewBox="0 0 20 20" 
-                        fill="currentColor"
-                    >
-                        <path fillRule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clipRule="evenodd" />
-                    </svg>
-                </div>
-            </div>
-
-            {/* Tabla de Prestadores */}
-            <div className="overflow-x-auto">
-                <div className="inline-block min-w-full">
-                    <div className="bg-white rounded-lg shadow overflow-hidden">
-                        <table className="min-w-full divide-y divide-gray-200">
-                            <thead className="bg-gray-50">
-                                <tr>
-                                    <th 
-                                        className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100"
-                                        onClick={() => handleSort('id_prestador')}
-                                    >
-                                        <span className="flex items-center">
-                                            CUIT
-                                            {getSortIcon('id_prestador')}
-                                        </span>
-                                    </th>
-                                    <th 
-                                        className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100"
-                                        onClick={() => handleSort('nombre')}
-                                    >
-                                        <span className="flex items-center">
-                                            Nombre
-                                            {getSortIcon('nombre')}
-                                        </span>
-                                    </th>
-                                    <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider w-24">Acciones</th>
-                                </tr>
-                            </thead>
-                            <tbody className="bg-white divide-y divide-gray-200">
-                                {filteredPrestadores.map((prestador) => (
-                                    <tr key={prestador.id_prestador} className="hover:bg-gray-50">
-                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{prestador.id_prestador}</td>
-                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 uppercase">{prestador.nombre}</td>
-                                        <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                            <button 
-                                                onClick={() => navigate(`/prestadores/${prestador.id_prestador}`)}
-                                                className="inline-flex items-center px-3 py-1.5 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors"
-                                            >
-                                                Ver Detalle
-                                            </button>
-                                        </td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
+            {isLoading ? (
+                <div className="fixed inset-0 bg-gray-100 bg-opacity-90 flex items-center justify-center">
+                    <div className="text-center">
+                        <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-blue-500 mx-auto"></div>
+                        <p className="mt-4 text-gray-700">Cargando prestadores...</p>
                     </div>
                 </div>
-            </div>
+            ) : (
+                <>
+                    {/* Encabezado y Búsqueda */}
+                    <div className="flex justify-between items-center mb-6">
+                        <h1 className="text-2xl font-bold text-gray-800">Prestadores</h1>
+                        <Link 
+                            to="/prestadores/nuevo"
+                            className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors"
+                        >
+                            Nuevo Prestador
+                        </Link>
+                    </div>
+
+                    {/* Barra de búsqueda */}
+                    <div className="mb-6 flex gap-4">
+                        <div className="relative flex-1">
+                            <input
+                                type="text"
+                                placeholder="Buscar por nombre..."
+                                value={searchName}
+                                onChange={(e) => setSearchName(e.target.value)}
+                                className="w-full p-3 pl-10 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            />
+                            <svg 
+                                className="absolute left-3 top-3.5 h-5 w-5 text-gray-400"
+                                xmlns="http://www.w3.org/2000/svg" 
+                                viewBox="0 0 20 20" 
+                                fill="currentColor"
+                            >
+                                <path fillRule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clipRule="evenodd" />
+                            </svg>
+                        </div>
+                        <div className="relative flex-1">
+                            <input
+                                type="text"
+                                placeholder="Buscar por CUIT..."
+                                value={searchId}
+                                onChange={(e) => setSearchId(e.target.value)}
+                                className="w-full p-3 pl-10 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            />
+                            <svg 
+                                className="absolute left-3 top-3.5 h-5 w-5 text-gray-400"
+                                xmlns="http://www.w3.org/2000/svg" 
+                                viewBox="0 0 20 20" 
+                                fill="currentColor"
+                            >
+                                <path fillRule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clipRule="evenodd" />
+                            </svg>
+                        </div>
+                    </div>
+
+                    {/* Tabla de Prestadores */}
+                    <div className="overflow-x-auto">
+                        <div className="inline-block min-w-full">
+                            <div className="bg-white rounded-lg shadow overflow-hidden">
+                                <table className="min-w-full divide-y divide-gray-200">
+                                    <thead className="bg-gray-50">
+                                        <tr>
+                                            <th 
+                                                className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100"
+                                                onClick={() => handleSort('id_prestador')}
+                                            >
+                                                <span className="flex items-center">
+                                                    CUIT
+                                                    {getSortIcon('id_prestador')}
+                                                </span>
+                                            </th>
+                                            <th 
+                                                className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100"
+                                                onClick={() => handleSort('nombre')}
+                                            >
+                                                <span className="flex items-center">
+                                                    Nombre
+                                                    {getSortIcon('nombre')}
+                                                </span>
+                                            </th>
+                                            <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider w-24">Acciones</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody className="bg-white divide-y divide-gray-200">
+                                        {filteredPrestadores.map((prestador) => (
+                                            <tr key={prestador.id_prestador} className="hover:bg-gray-50">
+                                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{prestador.id_prestador}</td>
+                                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 uppercase">{prestador.nombre}</td>
+                                                <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                                    <button 
+                                                        onClick={() => navigate(`/prestadores/${prestador.id_prestador}`)}
+                                                        className="inline-flex items-center px-3 py-1.5 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors"
+                                                    >
+                                                        Ver Detalle
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </>
+            )}
         </div>
     );
 };
