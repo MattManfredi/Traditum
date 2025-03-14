@@ -5,6 +5,7 @@ import Planes from "./pages/Planes";
 import Practicas from "./pages/Practicas";
 import PrestadorDetalle from "./pages/PrestadorDetalle";
 import NavBar from "./components/NavBar";
+import PrestadoresAux from "./pages/PrestadoresAux";
 
 function App() {
     return (
@@ -18,6 +19,7 @@ function App() {
                         <Route path="/planes" element={<Planes />} />
                         <Route path="/practicas" element={<Practicas />} />
                         <Route path="/prestadores/:id" element={<PrestadorDetalle />} />
+                        <Route path="/prestadorOriginal" element={<PrestadoresAux/>} />
                     </Routes>
                 </main>
             </div>
