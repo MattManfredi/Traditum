@@ -7,16 +7,23 @@ import prestadoresRoutes from './routes/prestadores.js';
 
 const app = express();
 
-// Habilitar Cors
-app.use(cors({
+// Habilitar Cors Local
+/* app.use(cors({
     origin: 'http://localhost:5173', // Permite solo a este dominio
     methods: ['GET','POST','PUT','DELETE'],
     allowedHeaders: 'Content-Type, Authorization'
+})) */
+
+// Habilitar Cors Servidor
+app.use(cors({
+    origin: 'https://traditum-production.up.railway.app', // Permite solo a este dominio
+        methods: ['GET','POST','PUT','DELETE'],
+        allowedHeaders: 'Content-Type, Authorization'
 }))
+
 
 // Middleware para analizar json
 app.use(express.json());
-
 
 
 
@@ -30,6 +37,7 @@ sequelize.authenticate()
 app.get('/',(req,res)=>{
     res.send('Servidor en marcha papa');
 });
+
 
 app.use('/api/planes', planesRoutes);
 app.use('/api/practicas', practicasRoutes);
