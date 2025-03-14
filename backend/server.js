@@ -4,7 +4,6 @@ import {sequelize} from './config/config.js';
 import planesRoutes from './routes/planes.js';
 import practicasRoutes from './routes/practicas.js';
 import prestadoresRoutes from './routes/prestadores.js';
-import path from 'path';
 
 const app = express();
 
