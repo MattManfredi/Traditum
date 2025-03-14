@@ -56,19 +56,6 @@ app.use('/api/planes', planesRoutes);
 app.use('/api/practicas', practicasRoutes);
 app.use('/api/prestadores', prestadoresRoutes);
 
-// 🚀 Definir __dirname en ES Module
-const __dirname = path.resolve();
-
-// 🚀 Servir el frontend SOLO si la ruta NO es de la API
-app.use(express.static(path.join(__dirname, 'frontend/dist')));
-
-// 🚀 Si ninguna ruta coincide, servir el frontend (Evitar errores con React Router)
-app.get('*', (req, res) => {
-    if (req.originalUrl.startsWith('/api')) {
-        return res.status(404).json({ error: "API route not found" });
-    }
-    res.sendFile(path.join(__dirname, 'frontend/dist', 'index.html'));
-});
 
 // Iniciar servidorS
 
