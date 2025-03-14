@@ -2,7 +2,7 @@ import { useState,useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import { API_URL } from '../config/config';
+//import { API_URL } from '../config/config';
 
 const Prestadores = () => {
     const [prestadores, setPrestadores] = useState([]);
@@ -20,7 +20,8 @@ const Prestadores = () => {
     useEffect(() => {
         setIsLoading(true);
         console.log("Llamando a:", `${import.meta.env.VITE_API_URL}/prestadores`)
-        axios.get(`${API_URL}/prestadores`)
+        //axios.get(`${API_URL}/prestadores`)
+        axios.get(`${import.meta.env.VITE_API_URL}/prestadores`)
             .then(response => {
                 setPrestadores(response.data);
                 console.log(response);
