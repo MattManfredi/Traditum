@@ -20,6 +20,7 @@ const Prestadores = () => {
         axios.get(`${API_URL}/prestadores`)
             .then(response => {
                 setPrestadores(response.data);
+                console.log(response);
                 setFilteredPrestadores(response.data);
             })
             .catch(error => {
