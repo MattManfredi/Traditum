@@ -56,6 +56,18 @@ app.use('/api/practicas', practicasRoutes);
 app.use('/api/prestadores', prestadoresRoutes);
 
 
+// 🚀 Servir el frontend SOLO si la ruta NO es de la API
+const __dirname = path.resolve();
+app.use(express.static(path.join(__dirname, 'frontend/dist')));
+
+// 🚀 Si ninguna ruta coincide y NO es de la API, servir el frontend
+app.get('*', (req, res) => {
+    if (req.originalUrl.startsWith('/api')) {
+        return res.status(404).json({ error: "API route not found" });
+    }
+    res.sendFile(path.join(__dirname, 'frontend/dist', 'index.html'));
+});
+
 // Iniciar servidorS
 
 const PORT = process.env.PORT || 3000;
