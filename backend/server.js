@@ -15,11 +15,23 @@ const app = express();
 })) */
 
 // Habilitar Cors Servidor
+const allowedOrigins = [
+    'http://localhost:5173', 
+    'https://traditum-production.up.railway.app'
+];
+
 app.use(cors({
-    origin: 'https://traditum-production.up.railway.app', // Permite solo a este dominio
-        methods: ['GET','POST','PUT','DELETE'],
-        allowedHeaders: 'Content-Type, Authorization'
-}))
+    origin: function (origin, callback) {
+        if (!origin || allowedOrigins.includes(origin)) {
+            callback(null, true);
+        } else {
+            callback(new Error('CORS no permitido para este origen'));
+        }
+    },
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: 'Content-Type, Authorization'
+}));
+
 
 
 // Middleware para analizar json
