@@ -19,6 +19,7 @@ const Prestadores = () => {
     // Cargar prestadores
     useEffect(() => {
         setIsLoading(true);
+        console.log("Llamando a:", `${import.meta.env.VITE_API_URL}/prestadores`)
         axios.get(`${API_URL}/prestadores`)
             .then(response => {
                 setPrestadores(response.data);
