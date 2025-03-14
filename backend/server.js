@@ -1,11 +1,16 @@
 import express from 'express';
 import cors from 'cors';
+import path from 'path';
+import { fileURLToPath } from 'url';
 import {sequelize} from './config/config.js';
 import planesRoutes from './routes/planes.js';
 import practicasRoutes from './routes/practicas.js';
 import prestadoresRoutes from './routes/prestadores.js';
 
 const app = express();
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // Habilitar Cors Local
 /* app.use(cors({
@@ -17,7 +22,7 @@ const app = express();
 // Habilitar Cors Servidor
 const allowedOrigins = [
     'http://localhost:5173', 
-    'https://traditum-production.up.railway.app'
+    'https://traditum-production.up.railway.app',
 ];
 
 app.use(cors({
@@ -57,7 +62,6 @@ app.use('/api/prestadores', prestadoresRoutes);
 
 
 // 🚀 Servir el frontend SOLO si la ruta NO es de la API
-const __dirname = path.resolve();
 app.use(express.static(path.join(__dirname, 'frontend/dist')));
 
 // 🚀 Si ninguna ruta coincide y NO es de la API, servir el frontend
